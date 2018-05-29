@@ -1,0 +1,465 @@
+{
+version: "https://jsonfeed.org/version/1",
+user_comment: "This feed allows you to read the posts from this site in any feed reader that supports the JSON Feed format. To add this feed to your reader, copy the following URL -- http://roadfiresoftware.com/feed/json -- and add it your reader.",
+home_page_url: "http://roadfiresoftware.com",
+feed_url: "http://roadfiresoftware.com/feed/json",
+title: "Roadfire Software",
+description: "",
+items: [
+        {
+        id: "http://roadfiresoftware.com/2018/04/1106/",
+        url: "http://roadfiresoftware.com/2018/04/1106/",
+        title: "",
+        content_html: "<p>Dave DeLong, in <a href="https://davedelong.com/blog/2018/04/24/a-better-mvc-part-5-an-evolution/">A Better MVC, Part 5: An Evolution</a>:</p>
+        <blockquote><p>
+        &#8220;As I examined <code>UIViewController</code> and its role in apps more, I came to the conclusion that, despite its name, <code>UIViewController</code> is not a Controller, but a View. Almost everything that <code>UIViewController</code> deals with relates to view-level concepts, which heavily implies that it itself is a View, and should be treated as a View.&#8221;
+        </p></blockquote>
+        <p>I agree completely. Great article.</p>
+        ",
+        date_published: "2018-04-25T12:56:47+00:00",
+        date_modified: "2018-04-25T12:56:47+00:00",
+        author: {
+        name: "Josh Brown"
+        }
+        },
+        {
+        id: "http://roadfiresoftware.com/2018/03/how-to-unit-test-button-taps-on-a-view-controller-with-xctest/",
+        url: "http://roadfiresoftware.com/2018/03/how-to-unit-test-button-taps-on-a-view-controller-with-xctest/",
+        title: "How to unit test button taps on a view controller with XCTest",
+        content_html: "<p>In <a href="https://roadfiresoftware.com/2018/03/how-to-write-unit-tests-in-swift-4-with-xctest/">the previous article in this series</a>, we verified that our <code>LoginViewController</code> meets certain requirements for displaying text. When those tests pass, we have proof that our <code>LoginViewController</code> has the title &#8220;Podcaster&#8221; and that the username field&#8217;s placeholder text is &#8220;Username or email&#8221;. While tests like those are certainly useful for offloading some of the mental burden of manual testing, they&#8217;re not sufficient. We also need to be able to verify that our view controller behaves the way it should when the user interacts with it. Today we&#8217;ll test taps on the login button to make sure the view controller does what we expect.</p>
+        <p>As discussed in <a href="https://roadfiresoftware.com/2018/03/how-to-write-unit-tests-in-swift-4-with-xctest/">the previous article</a>, you should focus on testing requirements for your app. This gives you confidence that your app meets those requirements, and it relieves you of the manual testing burden and mental overhead associated with it.</p>
+        <p>We&#8217;ll start by testing the following requirement:</p>
+        <blockquote><p>
+        When the username field is blank, and the user taps <strong>Login</strong>, the app should display an error message that says, &#8220;Please enter a username or email&#8221;
+        </p></blockquote>
+        <p>Let&#8217;s add a new test to our <code>LoginTests</code> class from the previous article. First, we&#8217;ll set the username field to be blank, simulate a tap on the <strong>Login</strong> button, and verify that the app shows the error message.</p>
+        <pre class="crayon-plain-tag">func test_login_without_username() {
+        let storyboard = UIStoryboard(name: &quot;Main&quot;, bundle: nil)
+        let vc = storyboard.instantiateInitialViewController() as! LoginViewController
+        let _ = vc.view
+        
+        vc.username!.text = &quot;&quot;
+        
+        vc.loginButtonTapped()
+        
+        XCTAssertFalse(vc.errorLabel!.isHidden)
+        XCTAssertEqual(&quot;Please enter a username or email&quot;, vc.errorLabel!.text!)
+        }</pre>
+        <p>Just like in the previous article, we instantiate our storyboard and view controller, make sure the view is loaded by calling <code>vc.view</code>, then set up our test scenario. We set the <code>username</code> field&#8217;s <code>text</code> to the empty string, then call <code>loginButtonTapped</code> — the <code>@IBAction</code> method our <strong>Login</strong> button will call when the user taps on it. And finally, we make our assertions.</p>
+        <p>First, we assert that the <code>errorLabel</code> on our view controller is not hidden — we&#8217;re assuming the <code>errorLabel</code> is hidden until it needs to be displayed. We should have a test to prove this assumption, but that&#8217;s outside the scope of this article. I&#8217;m convinced you can do it yourself by copying and tweaking the test case above.</p>
+        <p>If you run this test now with <strong>⌘U</strong> or <strong>Product</strong> > <strong>Test</strong>, you should see it fail. This failure tells us we have a new requirement that our code does not yet meet. Implementing the code to make this test pass should be straightforward, and once you&#8217;re finished you can run the tests again to make sure they pass.</p>
+        <p>Verifying the next requirement will be very similar:</p>
+        <blockquote><p>
+        When the username field is not blank, and the password field is blank, and the user taps <strong>Login</strong>, the app should display an error message that says, &#8220;Please enter a password&#8221;
+        </p></blockquote>
+        <p>Let&#8217;s look at how we might translate that into a unit test:</p>
+        <pre class="crayon-plain-tag">func test_login_with_username_but_no_password() {
+        let storyboard = UIStoryboard(name: &quot;Main&quot;, bundle: nil)
+        let vc = storyboard.instantiateInitialViewController() as! LoginViewController
+        let _ = vc.view
+        
+        vc.username!.text = &quot;josh&quot;
+        vc.password!.text = &quot;&quot;
+        
+        vc.loginButtonTapped()
+        
+        XCTAssertFalse(vc.errorLabel!.isHidden)
+        XCTAssertEqual(&quot;Please enter a password&quot;, vc.errorLabel!.text!)
+        }</pre>
+        <p>When we set up our scenario this time, the username is set to &#8220;josh&#8221; to match the first part of the requirement that says the username is not blank. Then we set the password to the empty string to match the second part of the requirement, and again simulator a tap on the <strong>Login</strong> button. Finally, we make the same assertion as before — that the <code>errorLabel</code> is not hidden — before making our assertion that the <code>errorLabel</code> says &#8220;Please enter a password&#8221;. Again, you can implement this functionality yourself and run the tests to make sure it works as expected.</p>
+        <h2>Conclusion</h2>
+        <p>If you followed along with <a href="https://roadfiresoftware.com/2018/03/how-to-write-unit-tests-in-swift-4-with-xctest/">the previous article</a> and this one, you now have tests that verify several of your app&#8217;s requirements, and you can continue to add tests this way until you have a full suite of automated tests that verify your app&#8217;s behavior. But even a few tests are valuable — having just these requirements automatically tested means that you don&#8217;t have to worry about these features breaking in the future. You can be confident that as long as your tests pass, your code still works as it should. This gives you the freedom to move faster as you develop new features, knowing old ones won&#8217;t break. Your test suite also gives you the ability to refactor with confidence so you can eliminate those code smells that happen as your code grows and evolves.</p>
+        <p>This article is part of a series on unit testing in Swift — enter your name and email in the boxes below to get the rest so you can break the cycle of manually testing <em>everything</em>.</p>
+        ",
+        date_published: "2018-03-22T14:18:32+00:00",
+        date_modified: "2018-03-22T14:19:50+00:00",
+        author: {
+        name: "Josh Brown"
+        }
+        },
+        {
+        id: "http://roadfiresoftware.com/2018/03/whats-the-difference-between-a-mock-and-a-stub/",
+        url: "http://roadfiresoftware.com/2018/03/whats-the-difference-between-a-mock-and-a-stub/",
+        title: "What&#8217;s the difference between a mock and a stub, and how do you use them in Swift?",
+        content_html: "<img  class="x-img x-img-rounded none"  src="http://roadfiresoftware.com/wp-content/uploads/2018/03/32450019225_b988e2a426_k-1024x743.jpg" alt="Northern Mockingbird: Public Domain">
+        <p><em>(Northern Mockingbird. Public domain.)</em></p>
+        <p>Lots of people use the terms &#8220;mock&#8221; and &#8220;stub&#8221; interchangeably, and there&#8217;s a good deal of confusion around them. But <a href="https://martinfowler.com/articles/mocksArentStubs.html">mocks aren&#8217;t stubs</a>, as Martin Fowler says — they behave a bit differently.</p>
+        <p>So what&#8217;s the difference between a mock and a stub, and how do you use them to test your code?</p>
+        <h2>Stubbing in Swift</h2>
+        <p>A stub just returns canned data. That&#8217;s all. Assuming you have a <code>BlogClient</code> that fetches a <code>Blog</code> (synchronously, for simplicity), its stub might look like this:</p>
+        <pre class="crayon-plain-tag">class BlogClientStub: BlogClient {
+        override func fetch() -&gt; Blog {
+        return Blog(title: &quot;Roadfire Software&quot;)
+        }
+        }</pre>
+        <p>As you can see, the <code>fetch</code> method in our stub just returns a canned blog — the same one every time it&#8217;s called.</p>
+        <p>Now, let&#8217;s say we have a <code>BlogViewModel</code> that uses a <code>BlogClient</code> to fetch a <code>Blog</code> and we want to test it. If the <code>fetch</code> is asynchronous and slow, you&#8217;d want to avoid calling the actual implementation in your unit tests. So you might test it with a stub like this:</p>
+        <pre class="crayon-plain-tag">func test_title_with_stub() {
+        let stub = BlogClientStub()
+        let viewModel = BlogViewModel(client: stub)
+        let title = viewModel.title()
+        XCTAssertEqual(&quot;Roadfire Software&quot;, title)
+        }</pre>
+        <p>Here we&#8217;re just creating an instance of our <code>BlogClientStub</code> and passing it to our <code>BlogClientViewModel</code>. When we ask our view model for the title, we expect that we&#8217;ll get the title of the <code>Blog</code> in the stub — in this case, &#8220;Roadfire Software&#8221;.</p>
+        <p>Stubs are simple and straightforward — they&#8217;re essentially the simplest possible implementation of a method and return the same canned data every time.</p>
+        <h2>Mocking in Swift</h2>
+        <p>Mocks, on the other hand, are a bit more complex. They verify that a particular method was called. We can create our own mock in Swift like this:</p>
+        <pre class="crayon-plain-tag">class BlogClientMock: BlogClient {
+        var fetchWasCalled = false
+        override func fetch() -&gt; Blog {
+        fetchWasCalled = true
+        return Blog(title: &quot;Another iOS Blog&quot;)
+        }
+        }</pre>
+        <p>This looks a <em>lot</em> like our stub, but it has a little extra functionality. It tracks whether the <code>fetch</code> method was called with the <code>fetchWasCalled</code> property. It&#8217;s initialized to <code>false</code>, indicating that <code>fetch</code> hasn&#8217;t been called yet, and then flipped to <code>true</code> as soon as the <code>fetch</code> method is called.</p>
+        <p>How would we use this in a test? Like this:</p>
+        <pre class="crayon-plain-tag">func test_title_with_mock() {
+        let mock = BlogClientMock()
+        let viewModel = BlogViewModel(client: mock)
+        let _ = viewModel.title()
+        XCTAssertTrue(mock.fetchWasCalled)
+        }</pre>
+        <p>In this test, we&#8217;re creating an instance of our mock, then passing it to the <code>BlogViewModel</code>. When we call the <code>title</code> method on our view model, we expect the view model to call <code>fetch</code> on our <code>BlogClientMock</code>. This gives us a little more confidence in our view model — we know that the method was called as expected. If we wanted to be even more sure that things are working correctly, we could also make an assertion about the <code>title</code> like we did in our stub test.</p>
+        <p>You can take mocks even further — if you have a method with parameters, for example, your mock can track the values you passed as parameters to the method. This allows you to verify not only that the method was <em>called</em>, but that it was called <em>with the correct parameter values</em>. And furthermore, you can track the number of times the method was called with a property (like <code>fetchCallCount</code>, for example) and verify that <code>fetch</code> was called the correct number of times.</p>
+        <h2>Should you stub or mock?</h2>
+        <p>This brings us to the question: should you stub or mock when you&#8217;re dealing with asynchronous code in Swift?</p>
+        <p>In general, I prefer to stub. To me, mocks feel a bit brittle — they know a lot of detail about the <em>implementation</em> of the class I&#8217;m testing. I&#8217;d rather just verify that the output of my public methods are correct, and with stubs I can do that fairly simply.</p>
+        <p>There are plenty of other options if you don&#8217;t want to mock or stub — sometimes I find fakes to be useful. A fake is a working implementation of a class that you couldn&#8217;t use in production, like an in-memory database. I&#8217;ve used a fake for testing <code>UserDefaults</code> before — it&#8217;s fairly easy to set up and can sometimes be nicer than mocks or stubs.</p>
+        ",
+        date_published: "2018-03-21T15:05:29+00:00",
+        date_modified: "2018-03-21T15:26:03+00:00",
+        author: {
+        name: "Josh Brown"
+        }
+        },
+        {
+        id: "http://roadfiresoftware.com/2018/03/how-to-write-unit-tests-in-swift-4-with-xctest/",
+        url: "http://roadfiresoftware.com/2018/03/how-to-write-unit-tests-in-swift-4-with-xctest/",
+        title: "How to write unit tests in Swift 4 with XCTest",
+        content_html: "<p>Convinced of <a href="https://roadfiresoftware.com/2018/03/what-are-the-benefits-of-unit-testing/">the benefits of unit testing</a> for iOS but not sure where to start? Trying to figure out what framework to use, how to set it up, and which test to write first can feel overwhelming.</p>
+        <p>What unit testing framework should you use? XCTest. <a href="https://roadfiresoftware.com/2018/03/what-framework-should-i-use-to-start-unit-testing-on-ios/">Here&#8217;s why</a>: it works well, it&#8217;s easy to set up, and it&#8217;s easy to use. You don&#8217;t need to waste your time considering all the pros and cons of every single testing framework out there.</p>
+        <p>So how do you set up XCTest? Luckily it&#8217;s super simple to since it&#8217;s built in to Xcode.</p>
+        <h2>1.A. Adding unit tests to a new project</h2>
+        <p>If you&#8217;re starting a new Xcode project, including unit tests is as easy as it gets — just check the box for <strong>Include Unit Tests</strong> in the New Project dialog.</p>
+        <p><img src="http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-a-new-project-1024x732.png" alt="" width="884" height="632" class="aligncenter size-large wp-image-1070" srcset="http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-a-new-project-1024x732.png 1024w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-a-new-project-300x215.png 300w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-a-new-project-768x549.png 768w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-a-new-project-100x72.png 100w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-a-new-project-884x632.png 884w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-a-new-project.png 1460w" sizes="(max-width: 884px) 100vw, 884px" /></p>
+        <h2>1.B. Adding unit tests to an existing project</h2>
+        <p>If you want to add unit tests to an existing Xcode project that doesn&#8217;t have any, it&#8217;s <em>slightly</em> more work since you can&#8217;t just check a box, but still pretty easy. You just need to add a unit test target to your app.</p>
+        <ol>
+        <li>Select the Test Navigator in the left pane (⌘6)</li>
+        <li>Click the plus button at the bottom left and select <strong>New Unit Test Target…</strong></li>
+        <li>In the dialog that appears, click <strong>Finish</strong>. All the defaults are fine.</li>
+        </ol>
+        <p><img src="http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-an-existing-project-248x300.png" alt="" width="248" height="300" class="aligncenter size-medium wp-image-1071" srcset="http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-an-existing-project-248x300.png 248w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-an-existing-project-100x121.png 100w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Adding-unit-tests-to-an-existing-project.png 546w" sizes="(max-width: 248px) 100vw, 248px" /></p>
+        <h2>2. Running unit tests in Xcode</h2>
+        <p>Now that you have the unit test target in your project, you can run the tests from the menu bar with <strong>Product</strong> > <strong>Test</strong> or just use the keyboard shortcut: <strong>⌘U</strong>. Go ahead and do that just to make sure everything is in order. When the tests finish, you should see green checkmarks in the <strong>Test Navigator</strong> in the left pane (<strong>⌘6</strong>) indicating that the tests passed.</p>
+        <p><img src="http://roadfiresoftware.com/wp-content/uploads/2018/03/Test-results-300x148.png" alt="" width="300" height="148" class="aligncenter size-medium wp-image-1072" srcset="http://roadfiresoftware.com/wp-content/uploads/2018/03/Test-results-300x148.png 300w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Test-results-100x49.png 100w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Test-results.png 546w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+        <h2>3. Writing your first unit test with XCTest</h2>
+        <p>OK so you&#8217;re all set up to write tests. But what should you test?</p>
+        <p>In one word: requirements. Your unit tests should verify that your code meets the requirements for your app. You won&#8217;t be able to test <em>all</em> the requirements, but if you can test <em>some</em> of them, you&#8217;ll be able to quickly verify that your app meets those requirements. Or, when something breaks, you&#8217;ll know very quickly that your app no longer meets the requirements.</p>
+        <p>Let&#8217;s start by testing the following requirement:</p>
+        <blockquote><p>
+        The Login screen should have the title &#8220;Podcaster&#8221;.
+        </p></blockquote>
+        <p>For your app, I <em>highly</em> recommend picking a very simple requirement like this one (even if it&#8217;s not explicitly stated anywhere) and test that <em>first</em>.</p>
+        <p>Since you added unit tests to your project in Step 1 above, you should have a group called PodcasterTests that has a file called PodcasterTests.swift. Open that file in the editor.</p>
+        <p>You&#8217;ll see a bunch of completely unnecessary boilerplate methods and comments. Feel free to delete all of them, just leaving the imports and class definition.</p>
+        <pre class="crayon-plain-tag">import XCTest
+        @testable import Podcaster
+        
+        class LoginTests: XCTestCase {
+        
+        }</pre>
+        <p>Note that we need to import the <code>XCTest</code> framework and have our class extend <code>XCTestCase</code> to run our tests in Xcode. We also import our app module — <code>Podcaster</code>, in this case — with the <code>@testable</code> attribute so we have special access to our app&#8217;s classes, properties, and methods.</p>
+        <p>Now let&#8217;s write a test for the title requirement:</p>
+        <pre class="crayon-plain-tag">func test_title_is_Podcaster() {
+        let storyboard = UIStoryboard(name: &quot;Main&quot;, bundle: nil)
+        let login = storyboard.instantiateInitialViewController() as! LoginViewController
+        let _ = login.view
+        XCTAssertEqual(&quot;Podcaster&quot;, login.titleLabel!.text!)
+        }</pre>
+        <p>Notice that our test function starts with the word <code>test</code>. This is required — in order for Xcode to find and run your test, you have to prefix it with <code>test</code>. The rest of the name is up to you; the underscores here are just <em>my</em> preferred naming convention for unit tests since I find them easier to read this way. (I&#8217;m all about camelCase for regular production code, though.) I want my unit tests to read like a sentence so when one fails I have a good idea of what happened based on the test name.</p>
+        <p>Inside the method, we get an instance of our <code>LoginViewController</code> by instantiating a storyboard and then the initial view controller — just like we do in production code. Then we force-cast with <code>as!</code> since this is a unit test and we <em>want</em> it to fail if the initial view controller isn&#8217;t a <code>LoginViewController</code>. I would <em>never</em> recommend doing this in production code but almost always recommend it for test code.</p>
+        <p>Next, we load the view with <code>let _ = login.view</code>. When the app is actually running, you never have to do this since it happens automatically. But we&#8217;re in a unit test here, so we need to ask the view controller for the view to make sure it&#8217;s loaded. Forgetting to do this can cause all sorts of problems: your view controller&#8217;s <code>IBOutlet</code>s will be nil, and <code>viewDidLoad</code> will never get called.</p>
+        <p>And finally, we&#8217;re using an XCTest assertion to verify that <code>text</code> on <code>titleLabel</code> is &#8220;Podcaster&#8221;. <code>XCTAssertEqual</code> is just one of many options — you can find the others in the &#8220;Test Assertions&#8221; section of <a href="https://developer.apple.com/documentation/xctest">the XCTest documentation</a>.</p>
+        <p>This may seem like a trivial test, but it <em>does</em> verify that our code meets the &#8220;title&#8221; requirement. And that&#8217;s what unit testing is all about: verifying, automatically, that our code meets the requirements.</p>
+        <p>You can run your test now with <strong>⌘U</strong> or <strong>Product</strong> > <strong>Test</strong>; just be aware that it&#8217;ll fail if you don&#8217;t have a <code>LoginViewController</code> or if you don&#8217;t have its title label text set to &#8220;Podcaster&#8221;. For this tutorial, I&#8217;m going to assume you can implement the code you need to make the test pass.</p>
+        <p>This is fun. Let&#8217;s keep going!</p>
+        <h2>4. Writing additional tests with XCTest</h2>
+        <p>Testing the following requirement should look a lot like the previous test:</p>
+        <blockquote><p>
+        The username field should have the placeholder &#8220;Username or email&#8221;.
+        </p></blockquote>
+        <p>So here we&#8217;ll just want to verify that the username label&#8217;s placeholder is set to &#8220;Username or email&#8221;. Let&#8217;s do that:</p>
+        <pre class="crayon-plain-tag">func test_username_placeholder() {
+        let storyboard = UIStoryboard(name: &quot;Main&quot;, bundle: nil)
+        let login = storyboard.instantiateInitialViewController() as! LoginViewController
+        let _ = login.view
+        XCTAssertEqual(&quot;Username or email&quot;, login.username!.placeholder!)
+        }</pre>
+        <p>This test, like the previous one, creates an instance of <code>LoginViewController</code>, loads its view, and makes an assertion about it. This time the assertion is that the placeholder text on the <code>username</code> field is &#8220;Username or email&#8221;. And again we&#8217;re using exclamation points like crazy — but that&#8217;s fine since these are unit tests.</p>
+        <p>This gives us more confidence that our app meets the requirements — not all the requirements, but these two requirements. And if a bug is introduced where the placeholder is incorrect, our unit tests will catch it right away.</p>
+        <h2>Conclusion</h2>
+        <p>You may be wondering: <em>why would I ever write such basic tests to verify such simple requirements?</em></p>
+        <p>Well…have you ever seen a typo in a text field placeholder before? Have you ever accidentally changed the text on a label you were just trying to move to a new position? Or has a new developer ever joined your team, decided he knows what&#8217;s best, and just changed things without asking?</p>
+        <p>Unit tests like these will catch typos and accidental changes. And they&#8217;ll catch that guy red-handed who thinks he can do whatever he wants. You&#8217;ll never be able to unit test <em>every single requirement</em> for your app, but having <em>some</em> automatic verification of requirements is <em>much</em> better than having none since they reduce the mental overhead of checking every. single. thing. in every. single. build.</p>
+        <p>What about more complex requirements, though? Our test suite would be much more useful if it could do more than just verify that a couple strings are correct. We can <em>absolutely</em> test more complex requirements. And we will. Next time. Don&#8217;t miss it — enter your name and email in the boxes below to build even more confidence in your code by testing behavior in your app.</p>
+        ",
+        date_published: "2018-03-13T17:41:32+00:00",
+        date_modified: "2018-04-26T19:16:31+00:00",
+        author: {
+        name: "Josh Brown"
+        }
+        },
+        {
+        id: "http://roadfiresoftware.com/2018/03/what-are-the-benefits-of-unit-testing/",
+        url: "http://roadfiresoftware.com/2018/03/what-are-the-benefits-of-unit-testing/",
+        title: "What are the benefits of unit testing?",
+        content_html: "<p>When I asked my mailing list &#8220;What keeps you from writing unit tests?&#8221; one person said &#8220;I just don&#8217;t really understand the value of them.&#8221; And it wasn&#8217;t just that person — the majority of responses fit into that category. Generally speaking, iOS developers don&#8217;t write unit tests because they don&#8217;t know what the benefits are.</p>
+        <p>Let&#8217;s look at all the benefits you can get from following the practice of unit testing.</p>
+        <h2>1. Your company will save money</h2>
+        <p>When you write unit tests, you catch bugs earlier — much earlier than if you test manually — because you can test small units of functionality before all the components are built. This enables you to fix bugs faster since the code you just wrote is still fresh in your mind. And fixing bugs faster saves your company money. Some developers told me their company doesn&#8217;t want to pay them to spend extra time writing tests, but if your company knew the total project cost would be lower, wouldn&#8217;t they be delighted to have you do it?</p>
+        <p>Andy Hunt and Dave Thomas explain why testing matters in their seminal book, <a href="https://pragprog.com/book/tpp/the-pragmatic-programmer">The Pragmatic Programmer</a> (emphasis mine):</p>
+        <blockquote><p>
+        &#8220;A good project may well have more test code than production code. The time it takes to produce this test code is worth the effort. <strong>It ends up being much cheaper in the long run.</strong>&#8221;
+        </p></blockquote>
+        <p>And in <a href="https://www.objc.io/issues/15-testing/bad-testing-practices/">Bad Testing Practices</a>, Luis Solano says, &#8220;[Testing] reduces the time of creating software…by allowing you to modify your code faster, with the confidence that your tests will tell you when something went wrong.&#8221;</p>
+        <p>Trust the experts: unit testing will save your company money since you&#8217;ll be able to catch bugs sooner and fix them faster.</p>
+        <h2>2. Your users will be happier</h2>
+        <p>Even if you write a very simple unit test that verifies that your LoginViewController has the right title, you now have confidence that your code meets that requirement. And if you get your tests to run every time you commit code with continuous integration (CI), you can be sure that your LoginViewController will <em>always</em> have the right title as long as your unit test passes.</p>
+        <p>Granted, this is small and may seem like it&#8217;ll never fail. But that test will be quick to write, and even on a short project it&#8217;ll be executed thousands of times in the life of your project. Every time it passes you can be sure <em>that part of the application still works</em>, ensuring you didn&#8217;t accidentally change it in the process of doing something else. This enables you to ship stable updates to your users, knowing that some baseline functionality still works.</p>
+        <p>One reader pointed out that &#8220;an incomplete unit test suite can lull you into thinking you have captured all error conditions.&#8221; And they&#8217;re right — you <em>won&#8217;t</em> be able to unit test every single requirement, no matter how many tests you have. But having <em>some</em> unit tests and a good CI server gives you confidence that the part of your code that&#8217;s tested still works correctly <em>every time you commit</em>. When your users get app updates, they&#8217;ll be happy that the features they depend on still work they way they&#8217;re supposed to.</p>
+        <h2>3. You&#8217;ll be more confident when you refactor</h2>
+        <p>If you have unit tests that verify the requirements, you can refactor your implementation without worrying about breaking anything. As long as your tests continue to pass, you can be sure your code continues to meet those requirements.</p>
+        <p>More wisdom from The Pragmatic Programmer (emphasis mine):</p>
+        <blockquote><p>
+        &#8220;Make sure you have good tests before you begin refactoring. Run the tests as often as possible. That way you will know quickly if your changes have broken anything. &#91;…] &#91;Martin] Fowler&#8217;s point of <strong>maintaining good regression tests is the key to refactoring with confidence</strong>.&#8221;
+    </p></blockquote>
+    <p>Remember that unit tests aren&#8217;t just to catch bugs <em>now</em> as you&#8217;re developing new features; they&#8217;ll serve as your regression tests later to ensure your app continues to work well in the future.</p>
+    <p>You don&#8217;t have to feel anxious every time you need to refactor your code, worrying whether you&#8217;ll break a feature that works. Set yourself up with a good suite of unit tests so you can refactor with confidence, knowing your code still works the way it should.</p>
+    <h2>4. You&#8217;ll have up-to-date documentation for your code</h2>
+        <p>Since you write unit tests by translating requirements into code, unit tests are a form of documentation for your app. But unlike written requirements or design mockups, they can be executed and will tell you whether the implementation meets the requirements or not. Plus, documentation that&#8217;s written as unit tests must stay up to date — if it happened to become outdated, the unit tests would fail.</p>
+            <p>In unit tests, you can see how to instantiate classes, what sort of setup they need, and what you can expect when you call methods on them.</p>
+            <p>Greg Veres wrote in and described how unit tests have served as documentation on his projects (emphasis mine):</p>
+            <blockquote><p>
+            &#8220;When you write unit tests with good names, you are effectively documenting the behaviour of the code you have just written. And <strong>since you are testing requirements, you are effectively documenting the requirements</strong> the code is implementing. So when you come back in 6 months, you can quickly read through the list of unit tests and remind yourself what the code must do, then you can look in the code to remind you how it implements those requirements.&#8221;
+    </p></blockquote>
+    <p>Having your requirements documented in unit tests makes it clear what your app needs to do in order to continue working the way you expect. And when you forget how something is supposed to work, you can look back at your tests to find out.</p>
+        <h2>Conclusion</h2>
+        <p>Unit testing will give you a whole bunch of benefits; it&#8217;ll save your company money, make your users happier, give you confidence when you refactor, and help you understand your code better. You may also find that testing helps you focus on what you need to get done, release more frequently, and help you work more easily with legacy code, as others have found.</p>
+    <p>I hope you&#8217;re ready to start getting these benefits by unit testing your app. In the next article, you&#8217;ll learn what framework to use and how to write your first tests. Don&#8217;t miss out! Enter your name and email in the boxes to be sure you get it.</p>
+    ",
+date_published: "2018-03-08T15:44:30+00:00",
+date_modified: "2018-03-08T16:38:38+00:00",
+author: {
+name: "Josh Brown"
+}
+},
+{
+id: "http://roadfiresoftware.com/2018/03/not-using-automated-tests-still-a-systemic-problem-for-ios-developers/",
+url: "http://roadfiresoftware.com/2018/03/not-using-automated-tests-still-a-systemic-problem-for-ios-developers/",
+title: "Not Using Automated Tests: Still a Systemic Problem for iOS Developers",
+content_html: "<p>Ash Furrow, over five years ago, <a href="https://ashfurrow.com/blog/seven-deadly-sins-of-modern-objective-c/">in Seven Deadly Sins of Modern Objective-C</a>:</p>
+    <blockquote><p>
+    Do you unit test your Objective-C? No, you probably don’t. Do you have automated UI acceptance tests for your UI? Nope. Do you have any kind of continuous integration set up? No, you don’t.</p>
+        <p>  I don’t understand what is wrong with the Objective-C community that it continuously eschews any form of automated testing. It’s a serious, systemic problem.
+        </p></blockquote>
+        <p>This is <em>still</em> a serious, systemic problem in the iOS world. It&#8217;s <a href="https://roadfiresoftware.com/2018/02/whats-the-biggest-mistake-new-ios-developers-make-when-coding/">the biggest mistake</a> I see new iOS developers make, but it&#8217;s not just new developers — it&#8217;s most of us, most of the time. When <a href="https://pragprog.com/book/tpp/the-pragmatic-programmer">so</a> <a href="https://www.amazon.com/Test-Driven-iOS-Development-Developers-Library/dp/0321774183">many</a> <a href="https://martinfowler.com/bliki/TestPyramid.html">respected</a> <a href="https://qualitycoding.org">developers</a> <a href="https://www.amazon.com/Test-Driven-iOS-Development-Swift-maintainable/dp/1788475704/ref=pd_lpo_sbs_14_t_0?_encoding=UTF8&amp;psc=1&amp;refRID=VK8HKP42C9KJR69SKC8V">say</a> it&#8217;s worth the effort, why are we still not doing it?</p>
+    ",
+date_published: "2018-03-07T17:36:34+00:00",
+date_modified: "2018-03-07T21:43:11+00:00",
+author: {
+name: "Josh Brown"
+}
+},
+{
+id: "http://roadfiresoftware.com/2018/03/why-ios-developers-dont-write-unit-tests/",
+url: "http://roadfiresoftware.com/2018/03/why-ios-developers-dont-write-unit-tests/",
+title: "Why iOS developers don&#8217;t write unit tests",
+content_html: "<img  class="x-img x-img-rounded none"  src="http://roadfiresoftware.com/wp-content/uploads/2018/03/stanley-dai-242205-unsplash.jpg" alt="Photo by Stanley Dai on Unsplash">
+    <p>Last week I asked my mailing list &#8220;What keeps you from writing unit tests?&#8221; and got more than 30 responses. (If you didn&#8217;t participate and want to, just send me an email with your answer to josh@roadfiresoftware.com.) Today I&#8217;m sharing the anonymized results, hoping they&#8217;ll help all of us become more aware of why we don&#8217;t write unit tests — whenever we don&#8217;t. Even though I <em>usually</em> write tests, there are certainly times that I don&#8217;t, and knowing <em>why</em> helps me to know whether I&#8217;m being pragmatic or just making lame excuses.</p>
+    <p>Here&#8217;s what keeps iOS developers from writing unit tests, ordered from most common to least.</p>
+    <h2>I don&#8217;t see the benefit.</h2>
+    <p>The majority of responses fell into this category; lots of developers don&#8217;t see the benefit of writing unit tests or even believe they&#8217;re harmful.</p>
+    <blockquote><p>
+    &#8220;I haven&#8217;t seen much — if any — benefit to justify the investment.&#8221;</p>
+    <p>  &#8220;never really bothered about [unit testing] since we had in-house testers&#8221;</p>
+    <p>  &#8220;They don&#8217;t catch every error. An incomplete unit test suite can lull you into thinking you have captured all error conditions.&#8221;
+    </p></blockquote>
+    <p>These are all good reasons not to write unit tests. If you don&#8217;t understand the value or think they&#8217;re a waste of time, you probably <em>shouldn&#8217;t</em> be writing them. I get a lot of benefit from unit testing and plan to share them with you next time; if you&#8217;re in this group, I hope you&#8217;ll see how useful unit tests can be even if you do have a testing team.</p>
+        <h2>I don&#8217;t know how.</h2>
+    <p>Another big reason iOS developers don&#8217;t write unit tests: they don&#8217;t know how.</p>
+    <blockquote><p>
+    &#8220;I don&#8217;t know enough on how to use/incorporate unit tests&#8221;</p>
+    <p>  &#8220;I just find it overwhelming to try and start&#8221;
+    </p></blockquote>
+    <p>I&#8217;m not surprised this is the second-biggest reason iOS devs don&#8217;t test; as one person said, &#8220;there are no tests in tutorials, never.&#8221; Later in this series you&#8217;ll learn how to write your first tests so you don&#8217;t have to miss out on the benefits just because you&#8217;re unsure of where to start.</p>
+    <h2>I don&#8217;t have enough time</h2>
+    <p>The third-most popular reason to not write unit tests: not enough time.</p>
+    <blockquote><p>
+    &#8220;projects do not allow enough development time to get good coverage on tests&#8221;</p>
+    <p>  &#8220;my customer does not pay me for extra hours spent on tests :(&#8221;
+                                                                             </p></blockquote>
+                                                                             <p>I&#8217;ve certainly fallen into this category before; on one of my projects, our manager told us he knew we&#8217;d need to compromise quality in order to meet our deadline. We stopped writing unit tests and doing thorough code reviews so we could ship the app on time — with a bunch of bugs — but then we were able to focus on quality and get back into those habits.</p>
+                                                                             <h2>It&#8217;s hard.</h2>
+                                                                             <p>There&#8217;s no doubt that unit testing can be hard, especially when you&#8217;re first starting out. But even if you&#8217;re experienced, it can be time-consuming to set up testing scenarios.</p>
+                                                                             <blockquote><p>
+                                                                             &#8220;unit testing is certainly important for writing good code, but it&#8217;s also difficult&#8221;
+                                                                             </p></blockquote>
+                                                                             <p>Additionally, some developers believe code needs to be written differently in order to be tested, making it more difficult to write tests.</p>
+                                                                             <blockquote><p>
+                                                                             &#8220;You have to do a lot of things like ViewModels and the like to do [unit tests]&#8221;
+                                                                             </p></blockquote>
+                                                                             <p>And one developer even responded that &#8220;laziness&#8221; is what kept them from writing unit tests. I love an honest answer. <img src="https://s.w.org/images/core/emoji/2.4/72x72/1f604.png" alt="😄" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+                                                                             <p>All of these are good reasons: unit testing <em>can</em> be hard in a lot of cases, and sometimes it&#8217;s not worth the investment. Sometimes I don&#8217;t test things because the setup is too much, but I generally find unit tests to be worth the effort they take to develop.</p>
+                                                                             <h2>Conclusion</h2>
+                                                                             <p>I also noticed that <em>a lot</em> of people said they <em>should</em> write tests but either don&#8217;t know how or don&#8217;t feel like they have enough time.</p>
+                                                                             <p>Whatever keeps you from writing unit tests, you&#8217;re not alone. I hope having more awareness about unit testing helps you to think more about whether you should keep doing what you&#8217;re doing — or make changes if there are areas you could improve. I usually write unit tests and find lots of value in them; in the next article, I&#8217;ll explain all the benefits I&#8217;ve seen.</p>
+                                                                             <p>Enter your name and email in the boxes below to get it!</p>
+                                                                             ",
+                                                                             date_published: "2018-03-06T15:36:41+00:00",
+                                                                             date_modified: "2018-03-07T21:42:45+00:00",
+                                                                             author: {
+                                                                             name: "Josh Brown"
+                                                                             }
+                                                                             },
+                                                                             {
+                                                                             id: "http://roadfiresoftware.com/2018/03/what-framework-should-i-use-to-start-unit-testing-on-ios/",
+                                                                             url: "http://roadfiresoftware.com/2018/03/what-framework-should-i-use-to-start-unit-testing-on-ios/",
+                                                                             title: "What framework should I use to start unit testing on iOS?",
+                                                                             content_html: "<p>If you want to get started quickly, don&#8217;t waste your time searching for a good unit testing framework — just use <a href="https://developer.apple.com/documentation/xctest">the XCTest framework</a>. It’s built in to Xcode, easy to set up, easy to use, and works well. When you&#8217;re writing your first unit tests for iOS, you don&#8217;t need the distraction of researching a new third-party library, especially when XCTest is so good. Plus, using XCTest means <a href="http://roadfiresoftware.com/2015/08/save-your-future-self-from-broken-apps/">you don&#8217;t have to depend on a third-party framework</a> that may someday be abandoned, unsupported, or broken.</p>
+                                                                             <p><img src="http://roadfiresoftware.com/wp-content/uploads/2018/03/Screen-Shot-2018-03-02-at-11.44.58-AM.png" alt="" width="760" height="298" class="alignnone size-full wp-image-1060" srcset="http://roadfiresoftware.com/wp-content/uploads/2018/03/Screen-Shot-2018-03-02-at-11.44.58-AM.png 760w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Screen-Shot-2018-03-02-at-11.44.58-AM-300x118.png 300w, http://roadfiresoftware.com/wp-content/uploads/2018/03/Screen-Shot-2018-03-02-at-11.44.58-AM-100x39.png 100w" sizes="(max-width: 760px) 100vw, 760px" /></p>
+                                                                             <p>When you use XCTest in Xcode, you get:</p>
+                                                                             <ol>
+                                                                             <li>red or green icons next to your failing or passing tests, respectively</li>
+                                                                             <li>output in the Test Navigator, again with red or green icons</li>
+                                                                             <li>the ability to run a single test case</li>
+                                                                             <li>the ability to run all the tests in a class</li>
+                                                                             <li>a red line in the editor when a test fails, showing you exactly which assertion failed</li>
+                                                                             <li>a file template for quickly creating a new test class</li>
+                                                                             </ol>
+                                                                             <p>Don&#8217;t shop around for the best unit testing framework for iOS; just go with what&#8217;s built in. Use XCTest.</p>
+                                                                             ",
+                                                                             date_published: "2018-03-01T22:09:25+00:00",
+                                                                             date_modified: "2018-03-07T21:42:25+00:00",
+                                                                             author: {
+                                                                             name: "Josh Brown"
+                                                                             }
+                                                                             },
+                                                                             {
+                                                                             id: "http://roadfiresoftware.com/2018/02/whats-the-biggest-mistake-new-ios-developers-make-when-coding/",
+                                                                             url: "http://roadfiresoftware.com/2018/02/whats-the-biggest-mistake-new-ios-developers-make-when-coding/",
+                                                                             title: "What&#8217;s the biggest mistake new iOS developers make when coding?",
+                                                                             content_html: "<p>The other day on reddit I found this gem:</p>
+                                                                             <blockquote><p>
+                                                                             What are common mistakes self taught programmers make when coding in objective c?
+                                                                             </p></blockquote>
+                                                                             <p>This is an <em>excellent</em> question. A developer who goes out of their way to ask what mistakes they might be making is a developer who <em>cares</em> about getting better at coding. And if you <em>care</em>, you&#8217;ll get better. Guaranteed.</p>
+                                                                             <p>So, what&#8217;s the <em>biggest</em> mistake new iOS developers make when coding?</p>
+                                                                             <p><strong>Not writing unit tests.</strong></p>
+                                                                             <p>And if you&#8217;re a new iOS developer who doesn&#8217;t write unit tests, you&#8217;re not alone &#8212; I&#8217;ve worked on projects with dozens of iOS developers, and I can count on one hand the number who wrote unit tests before I joined the project. (Those who wrote unit tests also happen to be, not coincidentally, the <em>best</em> developers I&#8217;ve worked with.)</p>
+                                                                             <p>But why? Why don&#8217;t even experienced iOS developers write unit tests? (I&#8217;m often guilty of this, too.) There are plenty of excuses:</p>
+                                                                             <ul>
+                                                                             <li>&#8220;it takes too long&#8221;</li>
+                                                                             <li>&#8220;I&#8217;m not sure how to test this&#8221;</li>
+                                                                             <li>&#8220;my client doesn&#8217;t want to pay for tests&#8221;</li>
+                                                                             </ul>
+                                                                             <p>&#8230;and I&#8217;ve heard a boatload of others.</p>
+                                                                             <p>But what about the benefits? Have you considered how <em>useful</em> unit tests are?</p>
+                                                                             <p>They&#8217;re <em>insanely</em> valuable for verifying that code&#8230;</p>
+                                                                             <ul>
+                                                                             <li>does what it should</li>
+                                                                             <li>doesn&#8217;t break later when someone makes changes to it</li>
+                                                                             </ul>
+                                                                             <p>&#8230;and that we can refactor it later without worrying about introducing new bugs. (We&#8217;re <em>always</em> refactoring code.)</p>
+                                                                             <p>There are a thousand other reasons to write unit tests, but those are the big ones. They ensure code does what it should, that it doesn&#8217;t break later, and that we can refactor. They&#8217;re so valuable, so underrated, and so overlooked.</p>
+                                                                             <p>You don&#8217;t need permission to write quality code. Clients pay you to build software that works, and unit tests are proof that it does.</p>
+                                                                             ",
+                                                                             date_published: "2018-02-26T17:21:46+00:00",
+                                                                             date_modified: "2018-03-13T14:50:30+00:00",
+                                                                             author: {
+                                                                             name: "Josh Brown"
+                                                                             }
+                                                                             },
+                                                                             {
+                                                                             id: "http://roadfiresoftware.com/2018/02/how-to-parse-json-with-swift-4/",
+                                                                             url: "http://roadfiresoftware.com/2018/02/how-to-parse-json-with-swift-4/",
+                                                                             title: "How to parse JSON with Swift 4",
+                                                                             content_html: "<p>How do you parse JSON with Swift 4? Maybe you&#8217;ve done it with Swift 3 before, and if you have, you&#8217;ll be pleased to know that it&#8217;s so much better in Swift 4. And guess what? Nobody even calls it <em>parsing</em> any more — it&#8217;s <em>decoding</em> now. Apple has some new classes and protocols we can use: <code>JSONDecoder</code> and <code>Decodable</code> for decoding from JSON data to a model object, and <code>JSONEncoder</code> and <code>Encodable</code> for encoding from a model object to JSON data.</p>
+                                                                             <p>Let&#8217;s look at how to parse — or <em>decode</em> — the JSON feed from roadfiresoftware.com, which you can see for yourself <a href="http://roadfiresoftware.com/feed/json">here</a>. It looks something like this, though I&#8217;ve removed a bunch of JSON properties for the sake of simplicity:</p>
+                                                                             <pre class="crayon-plain-tag">{
+                                                                             &quot;home_page_url&quot;: &quot;http://roadfiresoftware.com&quot;,
+                                                                             &quot;title&quot;: &quot;Roadfire Software&quot;,
+                                                                             &quot;items&quot;: [
+                                                                                                 {
+                                                                                                 &quot;id&quot;: &quot;http://roadfiresoftware.com/2018/01/whats-the-best-way-to-learn-ios-development-with-swift/&quot;,
+                                                                                                 &quot;url&quot;: &quot;http://roadfiresoftware.com/2018/01/whats-the-best-way-to-learn-ios-development-with-swift/&quot;,
+                                                                                                 &quot;title&quot;: &quot;What&rsquo;s the best way to learn iOS development with Swift?&quot;
+                                                                                                 },
+                                                                                                 {
+                                                                                                 &quot;id&quot;: &quot;http://roadfiresoftware.com/2018/01/how-to-write-a-singleton-in-swift/&quot;,
+                                                                                                 &quot;url&quot;: &quot;http://roadfiresoftware.com/2018/01/how-to-write-a-singleton-in-swift/&quot;,
+                                                                                                 &quot;title&quot;: &quot;How to write a singleton in Swift&quot;
+                                                                                                 }
+                                                                                                 ]
+                                                                             }</pre>
+                                                                             <p>We can decode this in just two steps: first, we&#8217;ll define our model objects, and then we&#8217;ll use <code>JSONDecoder</code> to transform JSON data into our models.</p>
+                                                                             <h2>1. Defining model objects that conform to Decodable</h2>
+                                                                             <p>If we wanted to take all that JSON and turn it into objects, we might have <code>Blog</code> and <code>Article</code> models to represent it. Here are those models:</p>
+                                                                             <pre class="crayon-plain-tag">struct Blog: Decodable {
+                                                                             let title: String
+                                                                             let homepageURL: URL
+                                                                             let articles: [Article]
+                                                                             
+                                                                             enum CodingKeys : String, CodingKey {
+                                                                             case title
+                                                                             case homepageURL = &quot;home_page_url&quot;
+                                                                             case articles = &quot;items&quot;
+                                                                             }
+                                                                             }
+                                                                             
+                                                                             struct Article: Decodable {
+                                                                             let id: String
+                                                                             let url: URL
+                                                                             let title: String
+                                                                             }</pre>
+                                                                             <p>Notice that both models conform to the <code>Decodable</code> protocol. This allows us to decode them later with <code>JSONDecoder</code>, a new Foundation class in Swift 4. Additionally, they&#8217;re both structs, which I generally prefer for model objects — but you can define classes instead if you like.</p>
+                                                                             <p>The other thing you probably noticed is that <code>Blog</code> has a strange new enum called <code>CodingKeys</code> with <code>String</code> as the raw type, and it conforms to the <code>CodingKey</code> protocol. This lets us map property names in our model to JSON keys when the names and keys aren&#8217;t the same. For us, this means that we can have a <code>homepageURL</code> property on our <code>Blog</code> that maps to the <code>home_page_url</code> key in JSON. And similarly for <code>articles</code>, we&#8217;re mapping to <code>items</code> in JSON.</p>
+                                                                             <p>Our <code>Article</code> model doesn&#8217;t need <code>CodingKeys</code> since all of the properties we want to map have names that match. The JSON <code>id</code> maps to the <code>Article</code> <code>id</code>, and the same goes for <code>url</code> and <code>title</code>.</p>
+                                                                             <h2>2. Decoding JSON into model objects with JSONDecoder</h2>
+                                                                             <p>And now that our models specify the mappings from JSON to Swift (and vice-versa), we just need to ask <code>JSONDecoder</code> to decode the data and transform it into a <code>Blog</code>.</p>
+                                                                             <pre class="crayon-plain-tag">guard let data = data else {
+                                                                             print(&quot;Error: No data to decode&quot;)
+                                                                             return
+                                                                             }
+                                                                             
+                                                                             guard let blog = try? JSONDecoder().decode(Blog.self, from: data) else {
+                                                                             print(&quot;Error: Couldn't decode data into Blog&quot;)
+                                                                                   return
+                                                                                   }
+                                                                                   
+                                                                                   print(&quot;blog title: \(blog.title)&quot;)
+                                                                                   print(&quot;blog home: \(blog.homepageURL)&quot;)
+                                                                                   
+                                                                                   print(&quot;articles:&quot;)
+                                                                                   for article in blog.articles {
+                                                                                   print(&quot;- \(article.title)&quot;)
+                                                                                   }</pre>
+                                                                                   <p>We start by verifying that we actually have data to decode. Then we use <code>JSONDecoder</code>&#8216;s <code>decode(_:from:)</code> to transform that data into a <code>Blog</code>. And this is it — all we have to do is tell it that we want to turn <em>this</em> data into <em>this</em> type and all the magic happens under the hood. It prints the blog title, home, and a list of recent articles.</p>
+                                                                                   <h2>Conclusion</h2>
+                                                                                   <p>I hope this helps you to start working with JSON in Swift 4 — and furthermore, I hope you see that it&#8217;s relatively simple to do using the <code>JSONDecoder</code> class from the Foundation framework. So many people seem to want grab a third-party library to parse JSON, but for most use cases, I see very little benefit to using one to do something so simple — especially now that Swift 4 makes it so easy. <a href="http://roadfiresoftware.com/2015/08/save-your-future-self-from-broken-apps/">You don&#8217;t need a third-party library for everything.</a></p>
+                                                                                   <p>See all of this working <em>live</em> and tweak it to use <em>your</em> JSON endpoint by grabbing the playground for this article. Just drop your name and email in the boxes below and I&#8217;ll send you the playground right away.</p>
+                                                                                   ",
+                                                                                   date_published: "2018-02-07T15:54:00+00:00",
+                                                                                   date_modified: "2018-03-01T14:38:26+00:00",
+                                                                                   author: {
+                                                                                   name: "Josh Brown"
+                                                                                   }
+                                                                                   }
+                                                                                   ]
+                                                                                   }/* 
+  RestCountryFile.json
+  WSHelper
+
+  Created by Sogo Computers on 5/14/18.
+  Copyright © 2018 Sogo Computers. All rights reserved.
+*/

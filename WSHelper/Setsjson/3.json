@@ -1,0 +1,338 @@
+{
+    "id": 3,
+    "title": "English/French: Common verbs",
+    "terms": [
+        {
+            "term": "trouver",
+            "definition": "find"
+        },
+        {
+            "term": "arriver",
+            "definition": "arrive/reach"
+        },
+        {
+            "term": "donner",
+            "definition": "give"
+        },
+        {
+            "term": "passer",
+            "definition": "move"
+        },
+        {
+            "term": "parler",
+            "definition": "talk"
+        },
+        {
+            "term": "aimer",
+            "definition": "love"
+        },
+        {
+            "term": "demander",
+            "definition": "ask"
+        },
+        {
+            "term": "laisser",
+            "definition": "allow/let"
+        },
+        {
+            "term": "rester",
+            "definition": "stay/remain"
+        },
+        {
+            "term": "penser",
+            "definition": "think"
+        },
+        {
+            "term": "regarder",
+            "definition": "look"
+        },
+        {
+            "term": "rendre",
+            "definition": "make"
+        },
+        {
+            "term": "appeler",
+            "definition": "draw"
+        },
+        {
+            "term": "paraitre",
+            "definition": "look"
+        },
+        {
+            "term": "sortir",
+            "definition": "go out/exit"
+        },
+        {
+            "term": "manger",
+            "definition": "eat"
+        },
+        {
+            "term": "\u00e9couter",
+            "definition": "listen"
+        },
+        {
+            "term": "travailler",
+            "definition": "work"
+        },
+        {
+            "term": "sentir",
+            "definition": "feel"
+        },
+        {
+            "term": "vivre",
+            "definition": "live"
+        },
+        {
+            "term": "chercher",
+            "definition": "seek/search"
+        },
+        {
+            "term": "commencer",
+            "definition": "start/begin"
+        },
+        {
+            "term": "revenir",
+            "definition": "back"
+        },
+        {
+            "term": "lire",
+            "definition": "read"
+        },
+        {
+            "term": "entrer",
+            "definition": "enter"
+        },
+        {
+            "term": "r\u00e9pondre",
+            "definition": "reply/answer"
+        },
+        {
+            "term": "\u00e9crire",
+            "definition": "write"
+        },
+        {
+            "term": "porter",
+            "definition": "wear"
+        },
+        {
+            "term": "reprendre",
+            "definition": "resume"
+        },
+        {
+            "term": "tomber",
+            "definition": "fall"
+        },
+        {
+            "term": "acheter",
+            "definition": "buy"
+        },
+        {
+            "term": "payer",
+            "definition": "pay"
+        },
+        {
+            "term": "marcher",
+            "definition": "walk"
+        },
+        {
+            "term": "monter",
+            "definition": "climb"
+        },
+        {
+            "term": "jouer",
+            "definition": "play"
+        },
+        {
+            "term": "rire",
+            "definition": "laugh"
+        },
+        {
+            "term": "ouvrir",
+            "definition": "open"
+        },
+        {
+            "term": "servir",
+            "definition": "use"
+        },
+        {
+            "term": "vendre",
+            "definition": "sell"
+        },
+        {
+            "term": "attendre",
+            "definition": "wait"
+        },
+        {
+            "term": "perdre",
+            "definition": "lose"
+        },
+        {
+            "term": "descendre",
+            "definition": "down"
+        },
+        {
+            "term": "finir",
+            "definition": "finish"
+        },
+        {
+            "term": "rappeler",
+            "definition": "remember"
+        },
+        {
+            "term": "apprendre",
+            "definition": "learn"
+        },
+        {
+            "term": "arr\u00eater",
+            "definition": "adopt"
+        },
+        {
+            "term": "mourir",
+            "definition": "die"
+        },
+        {
+            "term": "occuper",
+            "definition": "hold"
+        },
+        {
+            "term": "compter",
+            "definition": "count"
+        },
+        {
+            "term": "dormir",
+            "definition": "sleep"
+        },
+        {
+            "term": "suivre",
+            "definition": "monitor"
+        },
+        {
+            "term": "montrer",
+            "definition": "display/show"
+        },
+        {
+            "term": "boire",
+            "definition": "drink"
+        },
+        {
+            "term": "continuer",
+            "definition": "continue/go"
+        },
+        {
+            "term": "recevoir",
+            "definition": "get/receive"
+        },
+        {
+            "term": "souffrir",
+            "definition": "suffer"
+        },
+        {
+            "term": "valoir",
+            "definition": "submit/claim/earn"
+        },
+        {
+            "term": "apercevoir",
+            "definition": "see"
+        },
+        {
+            "term": "(se) souvenir",
+            "definition": "(to) remember"
+        },
+        {
+            "term": "reconnaitre",
+            "definition": "recognise"
+        },
+        {
+            "term": "essayer",
+            "definition": "try"
+        },
+        {
+            "term": "marier",
+            "definition": "marry"
+        },
+        {
+            "term": "conduire",
+            "definition": "drive"
+        },
+        {
+            "term": "plaire",
+            "definition": "please"
+        },
+        {
+            "term": "sembler",
+            "definition": "look/seem"
+        },
+        {
+            "term": "raconter",
+            "definition": "tell"
+        },
+        {
+            "term": "changer",
+            "definition": "change"
+        },
+        {
+            "term": "remarquer",
+            "definition": "notes"
+        },
+        {
+            "term": "obliger",
+            "definition": "bond/oblige"
+        },
+        {
+            "term": "int\u00e9resser",
+            "definition": "interest"
+        },
+        {
+            "term": "coucher",
+            "definition": "sleeping"
+        },
+        {
+            "term": "devenir",
+            "definition": "become"
+        },
+        {
+            "term": "jeter",
+            "definition": "throw"
+        },
+        {
+            "term": "lever",
+            "definition": "rise/lift"
+        },
+        {
+            "term": "agir",
+            "definition": "act"
+        },
+        {
+            "term": "sourire",
+            "definition": "smile"
+        },
+        {
+            "term": "tirer",
+            "definition": "pull/draw"
+        },
+        {
+            "term": "ajouter",
+            "definition": "insert/add"
+        },
+        {
+            "term": "tourner",
+            "definition": "rotate/turn"
+        },
+        {
+            "term": "garder",
+            "definition": "keep"
+        },
+        {
+            "term": "aller",
+            "definition": "go"
+        },
+        {
+            "term": "avoir",
+            "definition": "have"
+        },
+        {
+            "term": "etre",
+            "definition": "be"
+        }
+    ]
+}

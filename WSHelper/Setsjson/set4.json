@@ -1,0 +1,38 @@
+{
+    "Project": 43,
+    "definition": [
+                   {
+                   "statusCode": 0,
+                   "entryID": "123",
+                   "Initiatives": [],
+                   "validationCode": "1.0.0"
+                   },
+                   {
+                   "statusCode": 0,
+                   "workProduct":
+                   [{
+                    "task":[{
+                            "desc": "define project scope",
+                            "hours": 120,
+                            "week": "1",
+                            "resources":
+                                    [{
+                                        "r": "planner",
+                                        "l": "junior",
+                                        "s": "open"
+                                      },
+                                      {
+                                        "r": "architect",
+                                        "s": "senior",
+                                        "s": "filled"
+                                       }],
+                            "managerCode": "1285",
+                            "teamCode": ["413"]
+                            }],
+                    "scope": "project design"
+                                   }],
+                   "entryID": "123",
+                   "validationCode": "1.0.0"
+                   }
+        ]
+}

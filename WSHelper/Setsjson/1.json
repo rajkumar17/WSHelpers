@@ -1,0 +1,214 @@
+{
+    "id": 1,
+    "title": "Spanish/English: Animals",
+    "terms": [
+        {
+            "term": "ardilla",
+            "definition": "squirrel"
+        },
+        {
+            "term": "Ballena",
+            "definition": "Whale"
+        },
+        {
+            "term": "Bandada",
+            "definition": "Flock of birds"
+        },
+        {
+            "term": "Buey (m)",
+            "definition": "Ox"
+        },
+        {
+            "term": "Burro",
+            "definition": "Donkey"
+        },
+        {
+            "term": "Caballo",
+            "definition": "Horse"
+        },
+        {
+            "term": "Cabra",
+            "definition": "Goat"
+        },
+        {
+            "term": "Cachorro",
+            "definition": "Cub (puppy)"
+        },
+        {
+            "term": "Camello",
+            "definition": "Camel"
+        },
+        {
+            "term": "Canguro",
+            "definition": "Kangaroo"
+        },
+        {
+            "term": "Carnero",
+            "definition": "Ram, mutton"
+        },
+        {
+            "term": "Cebra",
+            "definition": "Zebra"
+        },
+        {
+            "term": "Cerdo, Puerco",
+            "definition": "Pig"
+        },
+        {
+            "term": "Colmena",
+            "definition": "Beehive"
+        },
+        {
+            "term": "Conejo",
+            "definition": "Rabbit"
+        },
+        {
+            "term": "Cordero",
+            "definition": "Lamb"
+        },
+        {
+            "term": "Culebra",
+            "definition": "Snake"
+        },
+        {
+            "term": "Delf\u00edn (m)",
+            "definition": "Dolphin"
+        },
+        {
+            "term": "Elefante (m)",
+            "definition": "Elephant"
+        },
+        {
+            "term": "Foca",
+            "definition": "Seal"
+        },
+        {
+            "term": "Gato",
+            "definition": "Cat"
+        },
+        {
+            "term": "Jirafa",
+            "definition": "Giraffe"
+        },
+        {
+            "term": "Gusano\nLombriz",
+            "definition": "Worm"
+        },
+        {
+            "term": "Le\u00f3n (m)",
+            "definition": "Lion"
+        },
+        {
+            "term": "Liebre (f)",
+            "definition": "Hare"
+        },
+        {
+            "term": "Lobo",
+            "definition": "Wolf"
+        },
+        {
+            "term": "Manada",
+            "definition": "Herd, fock, pack"
+        },
+        {
+            "term": "Mapache (m)\nMapach\u00edn",
+            "definition": "Raccoon"
+        },
+        {
+            "term": "Mono",
+            "definition": "Monkey"
+        },
+        {
+            "term": "Mulo",
+            "definition": "Mule"
+        },
+        {
+            "term": "Murci\u00e9lago",
+            "definition": "Bat"
+        },
+        {
+            "term": "Orde\u00f1ar",
+            "definition": "To milk"
+        },
+        {
+            "term": "Oso",
+            "definition": "Bear"
+        },
+        {
+            "term": "Oveja",
+            "definition": "Sheep, ewe"
+        },
+        {
+            "term": "Panal (m)",
+            "definition": "Honeycomb"
+        },
+        {
+            "term": "Perro",
+            "definition": "Dog"
+        },
+        {
+            "term": "Potro",
+            "definition": "Colt"
+        },
+        {
+            "term": "Rana",
+            "definition": "Frog"
+        },
+        {
+            "term": "Rata",
+            "definition": "Rat"
+        },
+        {
+            "term": "Rat\u00f3n (m)",
+            "definition": "Mouse"
+        },
+        {
+            "term": "Reba\u00f1o",
+            "definition": "Flock (of sheep)"
+        },
+        {
+            "term": "Sapo",
+            "definition": "Toad"
+        },
+        {
+            "term": "Serpiente (f)",
+            "definition": "Serpent, snake"
+        },
+        {
+            "term": "Ternero",
+            "definition": "Calf"
+        },
+        {
+            "term": "Tigre (m)",
+            "definition": "Tiger"
+        },
+        {
+            "term": "Toro",
+            "definition": "Bull"
+        },
+        {
+            "term": "Tortuga",
+            "definition": "Turtle"
+        },
+        {
+            "term": "Vaca",
+            "definition": "Cow"
+        },
+        {
+            "term": "Venado",
+            "definition": "Stag\nDeer"
+        },
+        {
+            "term": "Yegua",
+            "definition": "Mare"
+        },
+        {
+            "term": "Zorro",
+            "definition": "Fox"
+        },
+        {
+            "term": "Solitario",
+            "definition": "Tape worm"
+        }
+    ]
+}

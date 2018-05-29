@@ -1,0 +1,24 @@
+{
+    "rows": [
+             {
+             "bbox": [
+                      10,
+                      20,
+                      10,
+                      20
+                      ],
+             "geometry": {
+             "coordinates": [
+                             10,
+                             20
+                             ],
+             "type": "Point"
+             },
+             "id": "x1",
+             "value": {
+             "name": "estimote"
+             }
+             }
+             ],
+    "update_seq": 31
+}
